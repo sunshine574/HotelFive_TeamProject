@@ -53,4 +53,7 @@
 <hr/>
 </pre>
 ## 데이터베이스 모델링
-
+![DBModel(Member)](https://user-images.githubusercontent.com/67766249/91015163-a4209a80-e625-11ea-8f0d-8247058ac790.jpg)
+<pre>
+<hr/>
+</pre>
