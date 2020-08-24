@@ -47,7 +47,9 @@
 </pre>
 ## 패키지 구조
 <code>
-<img src=''/>
+<img src='image/package1.jpg'/>
+<img src='image/package2.jpg'/>
+<img src='image/package3.jpg'/>
 </code>
 <pre>
 <hr/>
