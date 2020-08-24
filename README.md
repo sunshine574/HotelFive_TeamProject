@@ -48,7 +48,7 @@
 ## 패키지 구조
 ![package1](https://user-images.githubusercontent.com/67766249/91014897-31afba80-e625-11ea-80e6-3c4f24d898f3.jpg)
 ![package2](https://user-images.githubusercontent.com/67766249/91015021-6d4a8480-e625-11ea-9464-9b10f9a98281.jpg)
-![package3](.images/package3.jpg)
+![package3](https://user-images.githubusercontent.com/67766249/91015081-881cf900-e625-11ea-81f1-ecb2db90b378.jpg)
 <pre>
 <hr/>
 </pre>
