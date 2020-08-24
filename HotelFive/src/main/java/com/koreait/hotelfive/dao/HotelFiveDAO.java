@@ -110,7 +110,6 @@ public interface HotelFiveDAO {
 	
 	
 	//*********************************************************************************************//
-	// 신시명
 	// review 
 	//1. ReviewBoardInsert
 	public void ReviewBoardInsert(String rTitle, String rContent, String mId, String saveFilename, double rRating, String gName, int rIsdelete);
@@ -172,8 +171,7 @@ public interface HotelFiveDAO {
 	
 	//**********************************************************************************************************************************************************	
 	
-	//**********************************************************************************************************************************************************	
-	// 이병한
+	//**********************************************************************************************************************************************************
 	// 마이페이지 - 회원벙보 업데이트
 	public void memberUpdate(MemberDTO mDTO);
 	
@@ -185,7 +183,7 @@ public interface HotelFiveDAO {
 	
 	// 나의 질문글 보기
 	public ArrayList<QNADTO> selectMyBoardList(Map<String, String> map);
-//**********************************************************************************************************************************************************************
+//*************************************************************************************************************************************************************
 	
 	// 관리자페이지 -- 전체 회원 리스트 조회
 	public ArrayList<MemberDTO> userList(Map<String, Integer> map);
@@ -228,14 +226,19 @@ public interface HotelFiveDAO {
 	// 관리자페이지 -- 전체 예약 현황  - 리스트 조회(예약테이블만 가져온다)
 	public ArrayList<ReservationViewDTO> reservationList(Map<String, Integer> map2);
 	
+	// 관리자페이지 -- 전체 예약 갯수 가져오기
 	public int getTotalReservationCount();
+	
 	// 관리자페이지 -- 전체 예약 현황 - 리스트 검색하기
 	public ArrayList<ReservationViewDTO> queryAdminReservationList(Map<String, String> map2);
 
+	// 관리자페이지 -- 예약현황 게시판 검색 기능
 	public int getQueryReservationRecord(Map<String, String> map2);
-
+	
+	// 비회원 예약 가져오기
 	public ArrayList<ReservationViewDTO> nonMemberReservationList(Map<String, Integer> map2);
 
+	// 비회원 예약 삭제
 	public void deleteNonMemberReservationNumber(int rNo);
 
 }

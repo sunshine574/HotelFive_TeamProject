@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <style>
-<!--
+
 	.roomListOne {
 		display: inline-block;
 		padding: 40px;
