@@ -53,9 +53,7 @@
 <hr/>
 </pre>
 ## 데이터베이스 모델링
-> Member DB Model
   ![DBModel(Member)](https://user-images.githubusercontent.com/67766249/91015163-a4209a80-e625-11ea-8f0d-8247058ac790.jpg)
-> Nonmember DB Model
   ![DBModel(Nonmember)](https://user-images.githubusercontent.com/67766249/91015206-bf8ba580-e625-11ea-8de3-eaa327bd0aec.jpg)
 <pre>
 <hr/>
