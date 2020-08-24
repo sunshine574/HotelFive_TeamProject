@@ -46,11 +46,9 @@
 <hr/>
 </pre>
 ## 패키지 구조
-<code>
-<img src='images/package1.jpg'/>
-<img src='images/package2.jpg'/>
-<img src='images/package3.jpg'/>
-</code>
+![package1](./images/package1.jpg)
+![package2](./images/package2.jpg)
+![package3](.images/package3.jpg)
 <pre>
 <hr/>
 </pre>
