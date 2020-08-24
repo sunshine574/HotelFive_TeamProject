@@ -13,15 +13,15 @@ public class EmailAuthCommand implements Command {
 
 	@Override
 	public void execute(SqlSession sqlSession, Model model) {
-	try {
+		
+		try {
 			
 			long authKey = 0;
 			
 			Map<String, Object> map = model.asMap();
 			HttpServletRequest request = (HttpServletRequest)map.get("request");
 			JavaMailSender mailSender = (JavaMailSender)map.get("mailSender");
-			
-			
+	
 			// SimpleMailMessage 클래스가 이메일 내용을 작성한다.
 			SimpleMailMessage message = new SimpleMailMessage();
 			
@@ -36,8 +36,11 @@ public class EmailAuthCommand implements Command {
 			mailSender.send(message);
 			
 			model.addAttribute("authKey", authKey+"");
-	} catch (Exception e) {
+			
+			} catch (Exception e) {
+	
 			e.printStackTrace();
+			
 		}
 
 	}
