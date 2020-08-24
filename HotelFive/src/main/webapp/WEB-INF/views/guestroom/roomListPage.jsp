@@ -45,7 +45,7 @@
 	#hotelfive, #explain {font-weight: bold;}
 	#explain {font-size: 15px;}
 	#roominfo {width: 200px;}
--->
+
 </style>
 
 <!-- 동적인 페이지 포함 -->
