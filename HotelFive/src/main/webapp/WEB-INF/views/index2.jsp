@@ -89,7 +89,6 @@
 			</div>
 		</form>
 	</div>
-
 </div>
 <!-- 정적인 페이지 포함 -->
 <%@ include file="/WEB-INF/views/template/footer.jsp" %>
