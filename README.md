@@ -1,7 +1,5 @@
 # 호텔예약사이트 - 팀프로젝트
 
-=========================================================================
-
 ## 목적
 - 신입 웹 개발자로서 기본 소양을 갖추기 위한 연습
 - 학습한 내용을 실전에 응용하여 실제 웹 구축 과정 학습
@@ -53,8 +51,8 @@
 --------------------------------------------------------------------------
 
 ## 데이터베이스 모델링
-  ![DBModel(Member)](https://user-images.githubusercontent.com/67766249/91015163-a4209a80-e625-11ea-8f0d-8247058ac790.jpg)
-  ![DBModel(Nonmember)](https://user-images.githubusercontent.com/67766249/91015206-bf8ba580-e625-11ea-8de3-eaa327bd0aec.jpg)
+![DBModel(Member)](https://user-images.githubusercontent.com/67766249/91015163-a4209a80-e625-11ea-8f0d-8247058ac790.jpg)
+![DBModel(Nonmember)](https://user-images.githubusercontent.com/67766249/91015206-bf8ba580-e625-11ea-8de3-eaa327bd0aec.jpg)
   
 --------------------------------------------------------------------------
 
