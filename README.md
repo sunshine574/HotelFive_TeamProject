@@ -221,9 +221,8 @@ var totalPrice = 0;
   </body>
 </html>
 ~~~
-![board_admin](https://user-images.githubusercontent.com/67766249/91270491-ae709f00-e7b3-11ea-8391-239636478522.jpg)
-![board_member](https://user-images.githubusercontent.com/67766249/91270506-b3355300-e7b3-11ea-9f69-5b71aa1ebec8.jpg)
-![alert_password](https://user-images.githubusercontent.com/67766249/91270515-b597ad00-e7b3-11ea-972a-7ffe3963f00f.jpg)
+![board_admin](https://user-images.githubusercontent.com/67766249/91270948-669e4780-e7b4-11ea-9ed5-78b3d680c014.jpg)
+![board_member](https://user-images.githubusercontent.com/67766249/91270953-6a31ce80-e7b4-11ea-808e-bad13701e809.jpg)
 
 --------------------------------------------------------------------------
 ## 보완점
