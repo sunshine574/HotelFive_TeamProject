@@ -90,6 +90,8 @@ kakao.maps.envent.addListener(marker, 'click', function(){
 ~~~
 ![map](https://user-images.githubusercontent.com/67766249/91257041-dce67e00-e7a3-11ea-83cd-ef4d5d926047.jpg)
 
+
+
 > JAVASCRIPT를 이용한 유효성 검사
 - 예약페이지 객실 투숙 인원수에 따른 실시간 금액 정보 변동
 ~~~c
@@ -190,6 +192,7 @@ var totalPrice = 0;
 </script>
 ~~~
 ![price1](https://user-images.githubusercontent.com/67766249/91267340-250a9e00-e7ae-11ea-87c7-b219ef9cd599.jpg)
+![price2](https://user-images.githubusercontent.com/67766249/91267385-381d6e00-e7ae-11ea-9c85-672146363165.jpg)
 --------------------------------------------------------------------------
 ## 보완점
 
