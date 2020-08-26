@@ -69,14 +69,126 @@ var markerPosition = new kakao.maps.Lating(37.554042, 126.935764); // 마커가 
 
 map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT); // 지도에 컨트롤러 추가
 map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT); // 지도에 줌컨트롤 추가
-marker.setMap(map);
 var maker = new kakao.maps.Marker({ 
   position : markerPosition 
 }); // 마커 생성
+marker.setMap(map); // 마커가 지도 위에 표시되도록 설정
 
+var iwContent = '<p style="width:200px"><b>Hotel Five</b><br/>서울특별시 노고산동</p>'; // infowindow에 표출될 내용으로 HTML이나 document element 가능
+var iwPosition = new kakao.maps.Lating(37.554042, 126.935764); // infowindow 표시 위치
+var iwRemoveable = true; // infowindow를 닫을 수 있는 x버튼 표시
+var infowindow = new kakao.maps.InfoWindow({
+  position : iwPosition,
+  content : iwContent,
+  removeable : iwRemoveable
+}); // infowindow 생성
+
+kakao.maps.envent.addListener(marker, 'click', function(){
+  infowindow.open(map, marker);
+}); // marker click 이벤트 추가
 
 ~~~
 ![map](https://user-images.githubusercontent.com/67766249/91257041-dce67e00-e7a3-11ea-83cd-ef4d5d926047.jpg)
+
+> JAVASCRIPT를 이용한 유효성 검사
+- 예약페이지 객실 투숙 인원수에 따른 실시간 금액 정보 변동
+~~~c
+<html>
+  <!-- select태그를 이용한 투숙인원선택 옵션 -->
+  <body>
+    <c:if test="${gDTO.gNo eq 1}">
+      <select id="selectPeople${gDTO.gNo}" name="rPeople" onchange="fn_change()">
+        <option selected>::인원선택::</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        ...
+        <option value="10">10</option>
+      </select>
+    <c:if>
+    <label>기본요금 : </label>
+    <div id="basicPrice"></div>
+    <label>추가요금 : </label>
+    <div id="addPrice"></div>
+    <label>총 요금 : </label>
+    <div id="totalPrice"></div>
+  </body>
+</html>
+
+<script>
+
+var basicPrice = 0;
+var nights = 0;
+var addPrice = 0;
+var totalPrice = 0;
+
+  window.onload = function(){
+    // 숙박일수 및 기본요금 계산
+    var gPrice = '${gDTO.gPrice}';
+    var rCheckIn = '${rCheckIn}';
+    var rCheckOut = '${rCheckOut}';
+    var arrCheckIn = rCheckIn.split('-');
+    var arrCheckOut = rCheckOut.split('-');
+    var datCheckIn = new Date(arrCheckIn[0], arrCheckIn[1], arrCheckIn[2]);
+    var datCheckOut = new Date(arrCheckOut[0], arrCheckOut[1], arrCheckOut[2]);
+    
+    var diff = datCheckOut - datCheckIn;
+    var currDay = 24 * 60 * 60 * 1000;
+    nights = parseInt(diff / currDay);
+    basicPrice = gPrice * nights;
+    $('#basicPrice').html(basicPrice);
+  
+  }
+  
+  function fn_change(){
+    var selectItem = $("#selectPeople"+${gDTO.gNo}).val();
+    var gNo = ${gDTO.gNo};
+    var ConditionA = selectItem - 3; // 객실별 기본 투숙인원에 따른 조건 저장
+    var ConditionB = selectItem - 1; // 객실별 기본 투숙인원에 따른 조건 저장
+    var ConditionC = selectItem - 5; // 객실별 기본 투숙인원에 따른 조건 저장
+    var addPricePerPeople = 20000; // 초과인원에 대한 추가 요금
+    
+    if (gNo == 1 || gNo == 2) {
+      if (conditionA <= 0) {
+        addPrice = 0;
+      } else {
+        for (var i=0; i<conditionA; i++) {
+          addPrice = i * nights * addPricePerPeople;
+        }
+      }
+    }
+    
+    if (gNo == 3 || gNo == 4) {
+      if (conditionB <= 0) {
+        addPrice = 0;
+      } else {
+        for (var i=0; i<conditionB; i++) {
+          addPrice = i * nights * addPricePerPeople;
+        }
+      }
+    }
+    
+    if (gNo == 5) {
+      if (conditionC <= 0) {
+        addPrice = 0;
+      } else {
+        for (var i=0; i<conditionC; i++) {
+          addPrice = i * nights * addPricePerPeople;
+        }
+      }
+    }
+    
+    totalPrice = basicPrice + addPrice;
+    
+    $('#addPrice').html(addPrice);
+    $('#totalPrice').html(totalPrice);
+    document.getElementById('rPrice').value = totalPrice;
+    
+  }
+
+</script>
+~~~
 
 --------------------------------------------------------------------------
 ## 보완점
