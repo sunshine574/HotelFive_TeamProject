@@ -189,7 +189,7 @@ var totalPrice = 0;
 
 </script>
 ~~~
-
+![price1](https://user-images.githubusercontent.com/67766249/91267340-250a9e00-e7ae-11ea-87c7-b219ef9cd599.jpg)
 --------------------------------------------------------------------------
 ## 보완점
 
