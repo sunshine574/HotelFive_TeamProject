@@ -58,9 +58,23 @@
 // 지도에 표시할 마커를 아래와 같이 배열로 넣어주면 여러개의 마커를 표시할 수 있습니다
 var mapContainer = document.getElementById('map'); // 지도를 표시할 div
 mapOption = {
-center : new kakao.maps.Lating(37.554042, 126.935764), // 지도의 중심좌표
-level : 3 // 지도의 확대레벨
+  center : new kakao.maps.Lating(37.554042, 126.935764), // 지도의 중심좌표
+  level : 3 // 지도의 확대레벨
 };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
+var mapTypeControl = new kakao.maps.MapTypeControl(); // 일반지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤러 생성
+var zoomControl = new kakao.maps.ZoomControl(); // 지도 확대 축소를 제어할 수 있는 줌컨트롤 생성
+var markerPosition = new kakao.maps.Lating(37.554042, 126.935764); // 마커가 표시될 위치 저장
+
+map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT); // 지도에 컨트롤러 추가
+map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT); // 지도에 줌컨트롤 추가
+marker.setMap(map);
+var maker = new kakao.maps.Marker({ 
+  position : markerPosition 
+}); // 마커 생성
+
+
 ~~~
 ![map](https://user-images.githubusercontent.com/67766249/91257041-dce67e00-e7a3-11ea-83cd-ef4d5d926047.jpg)
 
