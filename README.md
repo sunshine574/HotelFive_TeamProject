@@ -193,6 +193,34 @@ var totalPrice = 0;
 ~~~
 ![price1](https://user-images.githubusercontent.com/67766249/91267340-250a9e00-e7ae-11ea-87c7-b219ef9cd599.jpg)
 ![price2](https://user-images.githubusercontent.com/67766249/91267385-381d6e00-e7ae-11ea-9c85-672146363165.jpg)
+
+> jstl 'c'를 이용한 데이터 뿌리기
+- QNA게시판 답변완료표시, 잠금표시 기능
+~~~c
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html>
+  <body>
+    <!-- 각 게시글의 댓글 개수를 불러와서 0이 아니면 '[답변등록완료]' 표시 -->
+    <c:if test="${qDTO.count ne 0}">
+      <span style="color:BBCCDD">[답변등록완료]</span>
+    </c:if>
+    
+    <!-- session의 로그인 정보를 불러와서 관리자면 게시글의 lock 해제, 아니면 lock (프라이버시 보호) -->
+    <form>
+      <c:if test="${loginDTO.mId == 'admin'}">
+        <!-- 관리자면 lock 해제 -->
+        <a href="qnaBoardView?qNo=${qDTO.qNo}">${qDTO.qTitle}</a>
+        <i class="fas fa-lock-open"></i>
+      </c:if>
+      <c:if test="${loginDTO.mId != 'admin'}">
+        <!-- 관리자가 아니면 게시글의 비밀번호 묻는 메소드 실행 -->
+        <input class="title_btn" type="button" value="${qDTO.qTitle}" onclick="fn_viewCheck(this.form)"/>
+        <i class="fas fa-lock"></i>
+      </c:if>
+    </form>
+  </body>
+</html>
+~~~
 --------------------------------------------------------------------------
 ## 보완점
 
