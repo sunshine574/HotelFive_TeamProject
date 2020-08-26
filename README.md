@@ -54,7 +54,6 @@
 ## Front-End 주요 기능
 > 카카오 지도 API
 - 지도 API를 이용한 호텔 위치 소개
-![map](https://user-images.githubusercontent.com/67766249/91257041-dce67e00-e7a3-11ea-83cd-ef4d5d926047.jpg)
 ~~~c
 // 지도에 표시할 마커를 아래와 같이 배열로 넣어주면 여러개의 마커를 표시할 수 있습니다
 var mapContainer = document.getElementById('map'); // 지도를 표시할 div
@@ -63,6 +62,7 @@ center : new kakao.maps.Lating(37.554042, 126.935764), // 지도의 중심좌표
 level : 3 // 지도의 확대레벨
 };
 ~~~
+![map](https://user-images.githubusercontent.com/67766249/91257041-dce67e00-e7a3-11ea-83cd-ef4d5d926047.jpg)
 
 --------------------------------------------------------------------------
 ## 보완점
