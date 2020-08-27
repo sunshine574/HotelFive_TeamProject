@@ -309,8 +309,8 @@ public class QNABoardListCommand implements Command {
   - DB Table과 DTO간의 변수가 일치하지 않아 문제 발생
   - DB Table 수정으로 문제 해결
 - 게시판 댓글 수정 및 삭제시 무조건 첫번째 댓글이 수정 및 삭제되는 문제
-  - HTML <pre><form></pre>태그가 댓글을 뿌려주는 <c:forEach>태그보다 바깥에 있어서 문제 발생
-  - <pre><form></pre>태그를 <c:forEach>태그 안으로 넣어줌
+  - HTML <p><form></p>태그가 댓글을 뿌려주는 <c:forEach>태그보다 바깥에 있어서 문제 발생
+  - <p><form></p>태그를 <c:forEach>태그 안으로 넣어줌
 - 관리자 페이지 예약현황 검색시 비회원 예약이 불러와지지 않는 문제
   - 비회원 예약 시 DB RESERVATION Table에 예약정보가 저장되지 않음
   - 비회원 전용 Table 생성 후 RESERVATION Table과 관계 설정 후 SQL문 수정
