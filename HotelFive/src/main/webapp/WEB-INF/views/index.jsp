@@ -48,7 +48,6 @@
    #reservation-box-selectBtn-div{
    	width: 20%; text-align: center;
    }
-   
 	#reservation-box-checkIn{
 		width : 100%;
 		border : none;
