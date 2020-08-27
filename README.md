@@ -224,6 +224,15 @@ var totalPrice = 0;
 ![board_admin](https://user-images.githubusercontent.com/67766249/91270948-669e4780-e7b4-11ea-9ed5-78b3d680c014.jpg)
 ![board_member](https://user-images.githubusercontent.com/67766249/91270953-6a31ce80-e7b4-11ea-808e-bad13701e809.jpg)
 
+> include를 이용하여 header 및 footer 반복코드 제거
+~~~c
+<!-- header include (동적 페이지) -->
+<jsp:include page="/WEB-INF/views/template/header.jsp" />
+...
+<!-- footer include (정적 페이지) -->
+<%@ include file="/WEB-INF/views/template/footer.jsp" %>
+~~~
+
 --------------------------------------------------------------------------
 ## Back-End 주요 기능
 > 메소드 처리 과정
@@ -300,6 +309,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE B.RN BETWEEN #{beginRecord} AND #{endRecord}
   </select>
 ~~~
+- QNA게시판 댓글 insert Controller
+~~~c
+@Controller
+public class BoardController {
+  @RequestMapping(value="qnaBoardReplyInsert", method=RequestMethod.POST)
+  public String qnaBoardReplyInsert(HttpServletRequest request, Model model) {
+    model.addAttribute("request", request);
+    int qNo = Integer.parseInt(request.getParameter("qNo"));
+    command = new QNABoardReplyInsertCommand();
+    command.execute(sqlSession, model);
+    return "redirect:qnaBoardView?qNo="+qNo; // 댓글을 입력하고 다시 페이지 이동시 현재 페이지로 돌아오기 위해 게시글 번호를 같이 넘겨준다
+  }
+}
+~~~
+- QNA게시판 댓글 insert Command
+~~~c
+public class QNABoardReplyInsertCommand implements Command {
+
+  @Override
+  public void execute(SqlSession sqlSession, Model model) {
+		
+    Map<String, Object> map = model.asMap();
+    HttpServletRequest request = (HttpServletRequest)map.get("request");
+		
+    int qNo = Integer.parseInt(request.getParameter("qNo"));
+    String mId = request.getParameter("mId");
+    String reContent = request.getParameter("reContent");
+		
+    HotelFiveDAO reDAO = sqlSession.getMapper(HotelFiveDAO.class);
+    reDAO.insertQNABoardReply(mId, reContent, qNo);
+
+  }
+
+}
+~~~
+- QNA게시판 댓글 insert Query
+~~~c
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koreait.hotelfive.dao.HotelFiveDAO">
+  <insert id="insertQNABoardReply">
+    INSERT INTO REPLY (RENO, MID, RECONTENT, QNO, RNO, RECATEGORY, RENOTICEDATE)
+    VALUES (REPLY_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, null, 1, SYSDATE)
+  </insert>
+~~~
 > 게시판 페이징
 - QNA게시판 페이징
 ~~~c
@@ -324,41 +380,152 @@ public class pageMaker {
     }
     
     beginPageOfBlock = (int)(((page - 1) / pagePerBlock) * pagePerBlock) + 1;
-		endPageOfBlock = beginPageOfBlock + pagePerBlock - 1;
+    endPageOfBlock = beginPageOfBlock + pagePerBlock - 1;
 		
-		if ( endPageOfBlock > totalPage ) {
-			endPageOfBlock = totalPage;
-		}
+    if ( endPageOfBlock > totalPage ) {
+      endPageOfBlock = totalPage;
+    }
 		
-		// 이전 버튼 표시
-		if ( beginPageOfBlock < pagePerBlock ) {
-			sb.append("<span style='color: lightgray;'>◀</span>&nbsp;&nbsp;");
-		} else {
-			sb.append("<a href='" + path + "?page=" + (beginPageOfBlock - 1) + "'>◀</a>&nbsp;&nbsp;");
-		}
+    // 이전 버튼 표시
+    if ( beginPageOfBlock < pagePerBlock ) {
+      sb.append("<span style='color: lightgray;'>◀</span>&nbsp;&nbsp;");
+    } else {
+      sb.append("<a href='" + path + "?page=" + (beginPageOfBlock - 1) + "'>◀</a>&nbsp;&nbsp;");
+    }
 		
-		// 페이지 번호 표시
-		for ( int p = beginPageOfBlock; p <= endPageOfBlock; p++ ) {
-			if ( p == page ) {
-				sb.append("<span style='color: lightgray;'>" + p + "</span>&nbsp;&nbsp;");
-			} else {
-				sb.append("<a href='" + path + "?page=" + p + "'>" + p + "</a>&nbsp;&nbsp;");
-			}
-		}
+    // 페이지 번호 표시
+    for ( int p = beginPageOfBlock; p <= endPageOfBlock; p++ ) {
+      if ( p == page ) {
+        sb.append("<span style='color: lightgray;'>" + p + "</span>&nbsp;&nbsp;");
+      } else {
+        sb.append("<a href='" + path + "?page=" + p + "'>" + p + "</a>&nbsp;&nbsp;");
+      }
+    }
 		
-		// 다음 버튼 표시
-		if ( endPageOfBlock == totalPage ) {
-			sb.append("<span style='color: lightgray;'>▶</span>");
-		} else {
-			sb.append("<a href='" + path + "?page=" + (endPageOfBlock + 1) + "'>▶</a>");
-		}
+    // 다음 버튼 표시
+    if ( endPageOfBlock == totalPage ) {
+      sb.append("<span style='color: lightgray;'>▶</span>");
+    } else {
+      sb.append("<a href='" + path + "?page=" + (endPageOfBlock + 1) + "'>▶</a>");
+    }
 		
-		return sb.toString();
+    return sb.toString();
     
   }
 }
 ~~~
+> 검색 기능
+- 예약내역검색 Controller
+~~~c
+@Controller
+public class BoardController {
+  @RequestMapping("queryAdminReservationPage")
+  public String queryAdminReservationPage(HttpServletRequest request, Model model) {			
+    model.addAttribute("request", request);
+    command = new AdminQueryReservationListCommand();
+    command.execute(sqlSession, model);
+				
+    return "admin/adminReservationListPage";
+  }
+}
+~~~
+- 예약내역검색 Command
+~~~c
+public class AdminQueryReservationListCommand implements Command {
 
+  @Override
+  public void execute(SqlSession sqlSession, Model model) {
+
+    Map<String, Object> mapRequest = model.asMap();
+    HttpServletRequest request = (HttpServletRequest) mapRequest.get("request");
+
+    int page = 1;
+    if(request.getParameter("page") != null) {
+      page = Integer.parseInt(request.getParameter("page"));
+    }
+
+    // 검색 파라미터
+    String column = request.getParameter("column");  // 검색할 칼럼
+    String query = request.getParameter("query");  // 검색할 내용
+
+    // page 를 알아야 가져올 list 의 begin 과 end 를 알 수 있다.(ex. 1 ~ 10, 11 ~ 20)
+    int recordPerPage = 5; // 한페이지의 게시물 갯수
+    int beginRecord = (page -1) * recordPerPage + 1;
+    int endRecord = beginRecord + recordPerPage - 1;
+
+    // beginRecord + endRecord = Map
+    Map<String, String> map = new HashMap<String, String>();
+    map2.put("beginRecord", beginRecord + "");
+    map2.put("endRecord", endRecord + "");
+    map2.put("column", column);
+    map2.put("query", query);
+
+    // DB에서 list 가져오기
+    HotelFiveDAO hDAO = sqlSession.getMapper(HotelFiveDAO.class);
+    ArrayList<ReservationViewDTO> reservationList = hDAO.queryAdminReservationList(map);
+
+    // 전체 게시글 갯수 구하기
+    int totalReservation = hDAO.getQueryReservationRecord(map);
+
+    // 페이지 ( << 1 2 3 >> )
+    String pageView = PageMakerQuery.getPageView("queryAdminReservationPage",  
+					           page, 
+					           recordPerPage, 
+					           totalReservation, query, column);
+    // request 에 저장할 데이터
+    model.addAttribute("page", page);
+    model.addAttribute("reservationList", reservationList);
+    model.addAttribute("pageView", pageView);
+    model.addAttribute("totalReservation", totalReservation);
+  }
+}
+~~~
+- 예약내역 전체 List Query
+~~~c
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koreait.hotelfive.dao.HotelFiveDAO">
+  <select id="reservationList" parameterType="Map" resultType="com.koreait.hotelfive.dto.ReservationViewDTO">
+  <!-- 회원과 비회원 모두의 예약을 불러오는 Query문을 작성한다 -->
+    SELECT * 
+    FROM (SELECT ROWNUM AS RN, A.* FROM (
+      (SELECT M.MID, R.RNO, M.MNAME, G.GNAME, R.RCHECKIN, R.RCHECKOUT, R.RPEOPLE, R.RAPPROVAL
+      FROM MEMBER M, GUESTROOM G, RESERVATION R
+      WHERE M.MNO = R.MNO
+      AND R.GNO = G.GNO
+      UNION ALL
+      SELECT N.NMID, R.RNO, N.NMNAME, G.GNAME, R.RCHECKIN, R.RCHECKOUT, R.RPEOPLE, R.RAPPROVAL
+      FROM NONMEMBER N, GUESTROOM G, RESERVATION R
+      WHERE N.NMID = R.NMID
+      AND R.GNO = G.GNO)
+      ORDER BY RNO DESC) A)
+    WHERE RN BETWEEN #{beginRecord} AND #{endRecord}
+  </select>
+~~~
+- 예약내역검색 Query
+~~~c
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koreait.hotelfive.dao.HotelFiveDAO">
+  <!-- 전체 예약현황 - 검색하기 -->
+  <select id="queryAdminReservationList" parameterType="Map" resultType="com.koreait.hotelfive.dto.ReservationViewDTO">
+    SELECT * 
+    FROM (SELECT ROWNUM RN, A.* FROM (
+      (SELECT M.MID, R.RNO, M.MNAME, G.GNAME, R.RCHECKIN, R.RCHECKOUT, R.RPEOPLE, R.RAPPROVAL
+      FROM MEMBER M, GUESTROOM G, RESERVATION R
+      WHERE M.MNO = R.MNO 
+      AND R.GNO = G.GNO
+        <if test="column=='MID'">AND M.MID LIKE '%' || #{query} || '%'</if>
+        <if test="column=='MNAME'">AND M.MNAME LIKE '%' || #{query} || '%'</if>
+        <if test="column=='GNAME'">AND G.GNAME LIKE '%' || #{query} || '%'</if>
+      ORDER BY R.RNO DESC) A))
+    WHERE RN BETWEEN #{beginRecord} AND #{endRecord}
+  </select>
+~~~
 --------------------------------------------------------------------------
 ## 보완점
 - 게시판 댓글 기능 AJAX로 구현.
