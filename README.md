@@ -230,7 +230,7 @@ var totalPrice = 0;
 - request -> controller -> command -> DAO -> Mybatis -> DB -> response
 
 > 게시판 CRUD 및 댓글 기능
-- QNA게시판 List
+- QNA게시판 List Controller
 ~~~c
 @Controller
 public class BoardController {
@@ -249,7 +249,7 @@ public class BoardController {
   
 }
 ~~~
-- ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+- QNA게시판 List Command
 ~~~c
 public class QNABoardListCommand implements Command {
 
@@ -286,14 +286,77 @@ public class QNABoardListCommand implements Command {
   }
 
 }
-
 ~~~
-
+- QNA게시판 List Query
+~~~c
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koreait.hotelfive.dao.HotelFiveDAO">
+  <select id="selectQNABoard" parameterType="Map" resultType="com.koreait.hotelfive.dto.QNADTO">
+    SELECT B.*, (SELECT COUNT(*) FROM REPLY R WHERE R.QNO = B.QNO) COUNT
+    FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM QNA WHERE QISDELETE = 1 ORDER BY QNO DESC) A) B
+    WHERE B.RN BETWEEN #{beginRecord} AND #{endRecord}
+  </select>
+~~~
 > 게시판 페이징
 - QNA게시판 페이징
 ~~~c
-
-
+public class pageMaker {
+  public static String getPageView (String path, int page, int recordPerPage, int totalRecord) {
+    
+    StringBuffer sb = new StringBuffer();
+    
+    int totalPage = 0; // 총 페이지 갯수
+    int pagePerBlock = 5; // 블럭당 페이지 수
+    int beginPageOfBlock = 0; // 블럭의 시작페이지
+    int endPageOfBlock = 0; // 블럭의 마지막페이지
+    
+    totalPage = (int)(totalRecord / recordPerPage);
+    
+    if ( totalRecord % recordPerPage != 0 ) {
+      totalPage++;
+    }
+    
+    if ( page > totalPage ) {
+      totalPage = page;
+    }
+    
+    beginPageOfBlock = (int)(((page - 1) / pagePerBlock) * pagePerBlock) + 1;
+		endPageOfBlock = beginPageOfBlock + pagePerBlock - 1;
+		
+		if ( endPageOfBlock > totalPage ) {
+			endPageOfBlock = totalPage;
+		}
+		
+		// 이전 버튼 표시
+		if ( beginPageOfBlock < pagePerBlock ) {
+			sb.append("<span style='color: lightgray;'>◀</span>&nbsp;&nbsp;");
+		} else {
+			sb.append("<a href='" + path + "?page=" + (beginPageOfBlock - 1) + "'>◀</a>&nbsp;&nbsp;");
+		}
+		
+		// 페이지 번호 표시
+		for ( int p = beginPageOfBlock; p <= endPageOfBlock; p++ ) {
+			if ( p == page ) {
+				sb.append("<span style='color: lightgray;'>" + p + "</span>&nbsp;&nbsp;");
+			} else {
+				sb.append("<a href='" + path + "?page=" + p + "'>" + p + "</a>&nbsp;&nbsp;");
+			}
+		}
+		
+		// 다음 버튼 표시
+		if ( endPageOfBlock == totalPage ) {
+			sb.append("<span style='color: lightgray;'>▶</span>");
+		} else {
+			sb.append("<a href='" + path + "?page=" + (endPageOfBlock + 1) + "'>▶</a>");
+		}
+		
+		return sb.toString();
+    
+  }
+}
 ~~~
 
 --------------------------------------------------------------------------
