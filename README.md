@@ -229,6 +229,66 @@ var totalPrice = 0;
 > 메소드 처리 과정
 - request -> controller -> command -> DAO -> Mybatis -> DB -> response
 
+> 게시판 CRUD 및 댓글 기능
+- QNA게시판 List
+~~~c
+@Controller
+public class BoardController {
+  
+  @Autowired // Automatic Dependency Injection
+  private SqlSession sqlSession; // Mybatis 연동 객체
+  private Command command;
+  
+  @RequestMapping(value="qnaBoardList", method=RequestMethod.GET)
+  public String qnaBoardList (HttpServletRequest request, Model model) {
+    model.addAttribute("request", request);
+    command = new QNABoardListCommand();
+    command.execute(sqlSession, model);
+    return "qnaBoard/qnaBoardListPage";
+  }
+  
+}
+~~~
+- ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+~~~c
+public class QNABoardListCommand implements Command {
+
+  @Override
+  public void execute (SqlSession sqlSession, Model model) {
+  
+    Map<String, Object> requestMap = model.asMap();
+    HttpServletRequest request = (HttpServletRequest) requestMap.get("request");
+    
+    int page = 1; // 게시판을 처음 들어왔을때 1페이지를 보여준다
+    if (request.getParameter("page") != null) {
+      page = Integer.parseInt(request.getParameter("page"));
+    } // 현재 page가 null일 경우 page를 해당 페이지로 이동
+    
+    int recordPerPage = 10;
+    int beginRecord = ( page - 1 ) * recordPerPage + 1;
+    int endRecord = beginRecord + recordPerPage - 1;
+    
+    Map<String, Integer> map = new HashMap<String, Integer>();
+    map.put("beginRecord", beginRecord);
+    map.put("endRecord", endRecord);
+    
+    HotelFiveDAO qDAO = sqlSession.getMapper(HotelFiveDAO.class);
+    ArrayList<QNADTO> list = qDAO.selectQNABorad(map);
+    
+    int totalRecord = qDAO.getTotalRecord();
+    String pageView = PageMaker.getPageView("qnaBoardList", page, recordPerPage, totalRecord); // 게시판 페이징을 위한 파라미터 전달
+    
+    model.addAttribute("list", list);
+    model.addAttribute("page", page);
+    model.addAttribute("pageView", pageView);
+    model.addAttribute("totalRecord", totalRecord);
+  
+  }
+
+}
+
+~~~
+
 > 게시판 페이징
 - QNA게시판 페이징
 ~~~c
