@@ -62,10 +62,14 @@ mapOption = {
   level : 3 // 지도의 확대레벨
 };
 
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
-var mapTypeControl = new kakao.maps.MapTypeControl(); // 일반지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤러 생성
-var zoomControl = new kakao.maps.ZoomControl(); // 지도 확대 축소를 제어할 수 있는 줌컨트롤 생성
-var markerPosition = new kakao.maps.Lating(37.554042, 126.935764); // 마커가 표시될 위치 저장
+// 지도 생성
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+// 일반지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤러 생성
+var mapTypeControl = new kakao.maps.MapTypeControl(); 
+// 지도 확대 축소를 제어할 수 있는 줌컨트롤 생성
+var zoomControl = new kakao.maps.ZoomControl(); 
+// 마커가 표시될 위치 저장
+var markerPosition = new kakao.maps.Lating(37.554042, 126.935764); 
 
 map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT); // 지도에 컨트롤러 추가
 map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT); // 지도에 줌컨트롤 추가
@@ -74,7 +78,8 @@ var maker = new kakao.maps.Marker({
 }); // 마커 생성
 marker.setMap(map); // 마커가 지도 위에 표시되도록 설정
 
-var iwContent = '<p style="width:200px"><b>Hotel Five</b><br/>서울특별시 노고산동</p>'; // infowindow에 표출될 내용으로 HTML이나 document element 가능
+// infowindow에 표출될 내용으로 HTML이나 document element 가능
+var iwContent = '<p style="width:200px"><b>Hotel Five</b><br/>서울특별시 노고산동</p>'; 
 var iwPosition = new kakao.maps.Lating(37.554042, 126.935764); // infowindow 표시 위치
 var iwRemoveable = true; // infowindow를 닫을 수 있는 x버튼 표시
 var infowindow = new kakao.maps.InfoWindow({
