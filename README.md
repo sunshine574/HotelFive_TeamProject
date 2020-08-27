@@ -290,7 +290,8 @@ public class QNABoardListCommand implements Command {
     ArrayList<QNADTO> list = qDAO.selectQNABorad(map);
     
     int totalRecord = qDAO.getTotalRecord();
-    String pageView = PageMaker.getPageView("qnaBoardList", page, recordPerPage, totalRecord); // 게시판 페이징을 위한 파라미터 전달
+    // 게시판 페이징을 위한 파라미터 전달
+    String pageView = PageMaker.getPageView("qnaBoardList", page, recordPerPage, totalRecord); 
     
     model.addAttribute("list", list);
     model.addAttribute("page", page);
@@ -324,7 +325,8 @@ public class BoardController {
     int qNo = Integer.parseInt(request.getParameter("qNo"));
     command = new QNABoardReplyInsertCommand();
     command.execute(sqlSession, model);
-    return "redirect:qnaBoardView?qNo="+qNo; // 댓글을 입력하고 다시 페이지 이동시 현재 페이지로 돌아오기 위해 게시글 번호를 같이 넘겨준다
+    // 댓글을 입력하고 다시 페이지 이동시 현재 페이지로 돌아오기 위해 게시글 번호를 같이 넘겨준다
+    return "redirect:qnaBoardView?qNo="+qNo; 
   }
 }
 ~~~
