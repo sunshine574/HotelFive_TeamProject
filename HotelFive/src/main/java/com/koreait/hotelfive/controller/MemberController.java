@@ -276,7 +276,6 @@ public class MemberController {
 		  return obj.toJSONString();
 	}
 	
-	// 이병한 
 			// 1. 마이페이지-메인
 			@RequestMapping("goMyPage")
 			public String goMyPage() {
@@ -382,7 +381,6 @@ public class MemberController {
 			}
 		//**********************************************************************************************************************************
 			
-			// 이병한
 			// 관리자 페이지 - MAIN 허브(연결통로)
 			@RequestMapping("adminMain")
 			public String goAdminMain() {

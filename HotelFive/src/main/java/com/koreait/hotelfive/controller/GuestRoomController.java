@@ -21,20 +21,20 @@ public class GuestRoomController {
 
 	
 	// 객실정보 리스트
-		@RequestMapping("roomListPage")
-		public String roomListPage(Model model) {
-			command = new RoomListCommand();
-			command.execute(sqlSession, model);
-			return "guestroom/roomListPage";
-		}
-		   
-		// 객실 상세정보 리스트
-		@RequestMapping("roomViewPage")
-		public String roomViewPage(HttpServletRequest request, Model model) {
-			// 객실 번호 넘기기 	
-			model.addAttribute("request", request);	
-			command = new RoomViewCommand();
-			command.execute(sqlSession, model);
-			return "guestroom/roomViewPage";
-		}
+	@RequestMapping("roomListPage")
+	public String roomListPage(Model model) {
+		command = new RoomListCommand();
+		command.execute(sqlSession, model);
+		return "guestroom/roomListPage";
+	}
+	   
+	// 객실 상세정보 리스트
+	@RequestMapping("roomViewPage")
+	public String roomViewPage(HttpServletRequest request, Model model) {
+		// 객실 번호 넘기기 	
+		model.addAttribute("request", request);	
+		command = new RoomViewCommand();
+		command.execute(sqlSession, model);
+		return "guestroom/roomViewPage";
+	}
 }

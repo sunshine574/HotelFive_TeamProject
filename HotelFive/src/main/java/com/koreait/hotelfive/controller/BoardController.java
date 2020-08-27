@@ -138,7 +138,6 @@ public class BoardController {
 
 	//************************************************************************************//
 	//review
-			//신시명
 			@RequestMapping(value="ReviewBoardListPage", method=RequestMethod.GET)
 			public String goBoardList(HttpServletRequest request, Model model) {
 				model.addAttribute("request", request);
@@ -230,8 +229,6 @@ public class BoardController {
 
 		//***********************************************************************************//
 		
-		
-		// 박예림**************************************************************
 		// notice
 		@RequestMapping("noticeBoardListPage")
 		public String noticeBoardListPage(HttpServletRequest request, Model model) {
